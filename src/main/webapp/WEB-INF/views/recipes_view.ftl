@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="recipes" type="java.util.List<app.db.models.Recipe>" -->
+<#-- @ftlvariable name="recipes" type="java.util.List<com.example.food.db.entities.Recipe>" -->
 <#macro recipes_view>
     <div class="recipes-bar__top">
         <div class="label">Recipes:</div>
@@ -19,9 +19,11 @@
                                         <li>${ingredient.name}</li>
                                     </#list>
                                 </ul>
+                            <#else>
+                                <p>No ingredients provided</p>
                             </#if>
                         </span>
-                        <small>${recipe.date}</small>
+                        <small>${recipe.publishedAt}</small>
                     </span>
                 </a>
             </div>
