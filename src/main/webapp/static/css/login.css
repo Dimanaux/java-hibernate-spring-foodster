@@ -1,0 +1,105 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+body {
+	font-family: 'Open Sans', sans-serif;
+}
+
+header {
+	width: 100%;
+	background: #FFF;
+	display: absolute;
+}
+
+header .brand {
+	padding: 12px 0 12px 0;
+	text-transform: uppercase;
+	text-align: center;
+	color: #000;
+	font-size: 24px;
+	font-weight: 800;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+main .wrapper {
+	height: 500px;
+	background-attachment: fixed;
+	background-position: 0 -300px;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+main .logo {
+	height: 400px;
+}
+
+main .form {
+	padding: 40px 0 40px 0;
+	background: #fff;
+}
+
+main .form .label {
+	text-align: center;
+	font-size: 40px;
+	font-weight: 800;
+}
+
+main .form form {
+	width: 30%;
+	margin: 50px auto;
+}
+
+main .form .login-input {
+	outline: none;
+	color: #000;
+	font-weight: 300;
+	font-size: 14px;
+	line-height: 22px;
+	background: #fff;
+	padding: 13px;
+	margin-bottom: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	border: 0px solid transparent;
+	border-bottom: 2px solid #000;
+}
+
+main .form .form-bottom {
+	margin-top: 10px;
+	text-align: left;
+}
+
+main .form .button-submit {
+	float: right;
+	width: 100px;
+	height: 40px;
+	border: 0px solid transparent;
+	cursor: pointer;
+	background-color: #fff;
+	color: #000;
+	text-align: center;
+	font-size: 18px;
+	transition: all 0.3s;
+	font-weight: 300;
+	border: 2px solid #000;
+}
+
+main .form .button-submit:hover {
+	background-color: #000;
+	color: #fff;
+}
