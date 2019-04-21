@@ -41,7 +41,7 @@ public class Recipe {
     @JoinColumn(name = "recipe_id")
     private final List<RecipeComment> comments = new LinkedList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "ingredient_recipe",
             joinColumns = {@JoinColumn(name = "recipe_id")},
