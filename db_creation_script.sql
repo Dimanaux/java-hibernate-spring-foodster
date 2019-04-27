@@ -1,7 +1,6 @@
-
 CREATE TABLE IF NOT EXISTS account
 (
-    id       INTEGER PRIMARY KEY,
+    id       SERIAL PRIMARY KEY,
     username TEXT NOT NULL,
     password TEXT NOT NULL,
     name     TEXT DEFAULT NULL,
@@ -11,7 +10,7 @@ CREATE TABLE IF NOT EXISTS account
 
 CREATE TABLE IF NOT EXISTS post
 (
-    id           INTEGER PRIMARY KEY,
+    id           SERIAL PRIMARY KEY,
     author_id    INTEGER,
     title        TEXT NOT NULL,
     content      TEXT NOT NULL,
@@ -21,7 +20,7 @@ CREATE TABLE IF NOT EXISTS post
 
 CREATE TABLE IF NOT EXISTS post_comment
 (
-    id           INTEGER PRIMARY KEY,
+    id           SERIAL PRIMARY KEY,
     author_id    INTEGER,
     post_id      INTEGER,
     content      TEXT NOT NULL,
@@ -32,14 +31,14 @@ CREATE TABLE IF NOT EXISTS post_comment
 
 CREATE TABLE IF NOT EXISTS ingredient
 (
-    id   INTEGER PRIMARY KEY,
+    id   SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     CONSTRAINT ingredient_unique_name UNIQUE (name)
 );
 
 CREATE TABLE IF NOT EXISTS dish
 (
-    id          INTEGER PRIMARY KEY,
+    id          SERIAL PRIMARY KEY,
     name        TEXT NOT NULL,
     description TEXT    DEFAULT NULL,
     is_vegan    BOOLEAN DEFAULT FALSE
@@ -47,7 +46,7 @@ CREATE TABLE IF NOT EXISTS dish
 
 CREATE TABLE IF NOT EXISTS recipe
 (
-    id           INTEGER PRIMARY KEY,
+    id           SERIAL PRIMARY KEY,
     author_id    INTEGER,
     dish_id      INTEGER,
     title        TEXT      NOT NULL,
@@ -67,7 +66,7 @@ CREATE TABLE IF NOT EXISTS ingredient_recipe
 
 CREATE TABLE IF NOT EXISTS recipe_comment
 (
-    id           INTEGER PRIMARY KEY,
+    id           SERIAL PRIMARY KEY,
     author_id    INTEGER,
     recipe_id    INTEGER,
     content      TEXT NOT NULL,
