@@ -27,7 +27,7 @@ public class PostComment {
     private Post post;
 
     @Column(name = "content")
-    private String text;
+    private String content;
 
     @Column(name = "published_at", insertable = false)
     private LocalDateTime publishedAt;
