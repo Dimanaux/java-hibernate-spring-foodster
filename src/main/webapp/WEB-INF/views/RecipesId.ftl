@@ -1,5 +1,5 @@
 <#-- @ftlvariable name="ingredients" type="java.util.List<app.db.models.Ingredient>" -->
-<#-- @ftlvariable name="recipe" type="app.db.models.Recipe" -->
+<#-- @ftlvariable name="recipe" type="com.example.food.db.entities.Recipe" -->
 <#include "base.ftl">
 <#include "sidemenu.ftl">
 
@@ -21,12 +21,12 @@
                     <div class="recipe-data">
                         <h2>${recipe.title}</h2>
                         <ul class="ingredients">
-                            <#list ingredients as ingredient>
+                            <#list recipe.ingredients as ingredient>
                                 <li>${ingredient.name}</li>
                             </#list>
                         </ul>
-                        <p>${recipe.text}</p>
-                        <small>${recipe.date}</small>
+                        <p>${recipe.content}</p>
+                        <small>${recipe.publishedAt}</small>
                     </div>
                     <div class="create-comment">
                         <h3>Write a comment:</h3>
