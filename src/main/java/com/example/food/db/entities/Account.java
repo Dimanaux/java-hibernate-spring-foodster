@@ -5,14 +5,14 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
-@Entity
+@Entity(name = "Account")
 @Table(name = "account")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"recipes", "posts"})
 @ToString(exclude = {"recipes", "posts", "password"})
 public class Account {
     @Id
@@ -39,5 +39,19 @@ public class Account {
     @OneToMany
     @JoinColumn(name = "author_id")
     private final List<Recipe> recipes = new LinkedList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return Objects.equals(id, account.id) &&
+                Objects.equals(username, account.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username);
+    }
 }
 

@@ -53,9 +53,9 @@ public class PostsController {
         Optional<Account> account = userService.getCurrentUser(request);
 
         Optional<Account> postAuthor = post.map(Post::getAuthor);
-        Optional<Boolean> canEdit = postAuthor.map(a -> a.equals(account.orElse(null)));
+        boolean canEdit = postAuthor.equals(account);
 
-        if (!canEdit.orElse(false)) {
+        if (!canEdit) {
             return "redirect:/posts?error='you cannot edit this post'";
         }
         modelMap.put("post", post.get());
@@ -119,9 +119,8 @@ public class PostsController {
         return "redirect:/posts/" + post.getId();
     }
 
-    //todo comments
     @ResponseBody
-    @GetMapping(path = "{id}/comments")
+    @GetMapping(path = "{id}/comments", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<PostComment> getComments(@PathVariable("id") int postId) {
         Optional<Post> post = postRepo.findById(postId);
         return post.map(Post::getComments).orElse(Collections.emptyList());

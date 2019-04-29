@@ -32,6 +32,4 @@ public class AppConfig {
         resolver.setSuffix(".ftl");
         return resolver;
     }
-
-
 }
