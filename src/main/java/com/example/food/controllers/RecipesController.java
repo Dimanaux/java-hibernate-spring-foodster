@@ -7,7 +7,10 @@ import com.example.food.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -38,6 +41,8 @@ public class RecipesController {
     @PostMapping
     public String createRecipe(Recipe recipe, HttpServletRequest request) {
         Optional<Account> account = userService.getCurrentUser(request);
+        assert account.isPresent();
+
         recipe.setAuthor(account.get());
         recipeRepo.save(recipe);
         return "redirect:/recipes/" + recipe.getId();
@@ -47,6 +52,8 @@ public class RecipesController {
     public String getRecipe(@PathVariable("id") int recipeId,
                             ModelMap modelMap, HttpServletRequest request) {
         Optional<Recipe> recipe = recipeRepo.findById(recipeId);
+        assert recipe.isPresent();
+
         modelMap.put("recipe", recipe.get());
         return "RecipesId";
     }
