@@ -2,10 +2,13 @@ package com.example.food.controllers;
 
 import com.example.food.db.entities.Account;
 import com.example.food.db.entities.Post;
+import com.example.food.db.entities.PostComment;
+import com.example.food.db.repositories.PostCommentRepo;
 import com.example.food.db.repositories.PostRepo;
 import com.example.food.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -17,22 +20,24 @@ import java.util.Optional;
 @RequestMapping(path = {"/posts"})
 public class PostsController {
     private final PostRepo postRepo;
+    private final PostCommentRepo commentRepo;
     private final UserService userService;
 
     @Autowired
-    public PostsController(PostRepo postRepo, UserService userService) {
+    public PostsController(PostRepo postRepo, PostCommentRepo commentRepo, UserService userService) {
         this.postRepo = postRepo;
+        this.commentRepo = commentRepo;
         this.userService = userService;
     }
 
     @GetMapping
-    public String getPosts(ModelMap modelMap) {
+    public String getPosts(ModelMap modelMap, HttpServletRequest request) {
         modelMap.put("posts", postRepo.findAll());
         return "PostsIndex";
     }
 
     @GetMapping(path = "/{id}")
-    public String getPostById(@PathVariable("id") int postId, ModelMap modelMap) {
+    public String getPostById(@PathVariable("id") int postId, ModelMap modelMap, HttpServletRequest request) {
         Post post = postRepo.findById(postId).orElse(Post.builder().content("No such post!").title("No such post!").build());
         modelMap.put("post", post);
         return "PostsId";
@@ -51,7 +56,6 @@ public class PostsController {
         if (!canEdit.orElse(false)) {
             return "redirect:/posts?error='you cannot edit this post'";
         }
-        modelMap.put("user", account.get());
         modelMap.put("post", post.get());
         return "PostsIdEdit";
     }
@@ -91,7 +95,7 @@ public class PostsController {
     }
 
     @GetMapping(path = "/new")
-    public String getPostsForm() {
+    public String getPostsForm(ModelMap modelMap, HttpServletRequest request) {
         return "PostsNew";
     }
 
@@ -100,7 +104,6 @@ public class PostsController {
                              @RequestParam("content") String content,
                              HttpServletRequest request) {
         Optional<Account> account = userService.getCurrentUser(request);
-
 
         assert account.isPresent();
 
@@ -115,4 +118,23 @@ public class PostsController {
     }
 
     //todo comments
+    @PostMapping(path = "{id}/comments")
+    public ResponseEntity<PostComment> createComment(@PathVariable("id") int postId,
+                                                     @RequestParam("text") String content,
+                                                     HttpServletRequest request) {
+        Post post = postRepo.findById(postId).get();
+        Optional<Account> account = userService.getCurrentUser(request);
+
+        PostComment comment = PostComment.builder()
+                .content(content)
+                .author(account.get())
+                .post(post)
+                .build();
+        post.getComments().add(comment);
+
+        commentRepo.save(comment);
+        postRepo.save(post);
+
+        return ResponseEntity.ok(comment);
+    }
 }
