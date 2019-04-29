@@ -5,12 +5,14 @@ import com.example.food.db.repositories.DishRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping
+@RequestMapping(path = "/dishes")
 public class DishController {
     private final DishRepo dishRepo;
 
@@ -22,7 +24,9 @@ public class DishController {
     @PostMapping()
     protected String createDish(@RequestParam("name") String name,
                                 @RequestParam("description") String description,
-                                @RequestParam(value = "is_vegan") Boolean isVegan) {
+                                @RequestParam(value = "is_vegan") Boolean isVegan,
+                                ModelMap m,
+                                HttpServletRequest r) {
         Dish dish = Dish.builder()
                 .name(name)
                 .description(description)

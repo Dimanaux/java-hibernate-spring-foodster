@@ -5,8 +5,9 @@ import com.example.food.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -21,20 +22,19 @@ public class ProfileController {
         this.userService = userService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public String getMyProfile(ModelMap modelMap, HttpServletRequest request) {
         Optional<Account> account = userService.getCurrentUser(request);
-        modelMap.put("user", account.get());
         modelMap.put("recipes", account.get().getRecipes());
         return "Profile";
     }
 
-    @RequestMapping(path = {"/edit"}, method = RequestMethod.GET)
+    @GetMapping(path = "/edit")
     public String getProfileEditForm(ModelMap modelMap) {
         return "ProfileEdit";
     }
 
-    @RequestMapping(path = {"/edit"}, method = RequestMethod.POST)
+    @PostMapping(path = "/edit")
     public String editProfile(Account account) {
         // todo
         return "redirect:/profile";
