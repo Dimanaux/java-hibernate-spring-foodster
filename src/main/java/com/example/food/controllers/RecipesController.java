@@ -7,10 +7,7 @@ import com.example.food.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -28,8 +25,7 @@ public class RecipesController {
     }
 
     @GetMapping
-    @RequestMapping(method = RequestMethod.GET)
-    public String getPosts(ModelMap modelMap) {
+    public String getPosts(ModelMap modelMap, HttpServletRequest request) {
         modelMap.put("recipes", recipeRepo.findAll());
         return "RecipesIndex";
     }
@@ -41,10 +37,18 @@ public class RecipesController {
 
     @PostMapping
     public String createRecipe(Recipe recipe, HttpServletRequest request) {
-        Optional<Account> account = userService.authenticate(request);
+        Optional<Account> account = userService.getCurrentUser(request);
         recipe.setAuthor(account.get());
         recipeRepo.save(recipe);
         return "redirect:/recipes/" + recipe.getId();
+    }
+
+    @GetMapping(path = "/{id}")
+    public String getRecipe(@PathVariable("id") int recipeId,
+                            ModelMap modelMap, HttpServletRequest request) {
+        Optional<Recipe> recipe = recipeRepo.findById(recipeId);
+        modelMap.put("recipe", recipe.get());
+        return "RecipesId";
     }
 
     // todo comments
