@@ -14,6 +14,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -118,6 +120,13 @@ public class PostsController {
     }
 
     //todo comments
+    @ResponseBody
+    @GetMapping(path = "{id}/comments")
+    public List<PostComment> getComments(@PathVariable("id") int postId) {
+        Optional<Post> post = postRepo.findById(postId);
+        return post.map(Post::getComments).orElse(Collections.emptyList());
+    }
+
     @PostMapping(path = "{id}/comments")
     public ResponseEntity<PostComment> createComment(@PathVariable("id") int postId,
                                                      @RequestParam("text") String content,
