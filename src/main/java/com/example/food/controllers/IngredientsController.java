@@ -20,13 +20,13 @@ public class IngredientsController {
     }
 
     @PostMapping
-    public void doPost(@RequestParam("ingredient_name") String ingredientName) {
+    public void createOne(@RequestParam("ingredient_name") String ingredientName) {
         ingredientRepo.save(new Ingredient(ingredientName));
     }
 
     @ResponseBody
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List doGet() {
+    public List getAll() {
         return ingredientRepo.findAll();
     }
 }
