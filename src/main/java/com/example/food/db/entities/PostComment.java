@@ -24,7 +24,7 @@ public class PostComment {
 
     @ManyToOne
     @JoinColumn(name = "post_id")
-    private Post post;
+    private transient Post post;
 
     @Column(name = "content")
     private String content;

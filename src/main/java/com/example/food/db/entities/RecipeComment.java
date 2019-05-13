@@ -24,7 +24,7 @@ public class RecipeComment {
 
     @ManyToOne
     @JoinColumn(name = "recipe_id")
-    private Recipe recipe;
+    private transient Recipe recipe;
 
     @Column(name = "content")
     private String content;

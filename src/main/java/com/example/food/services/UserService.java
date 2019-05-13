@@ -39,7 +39,7 @@ public class UserService {
 
         Optional<Cookie> rememberMe = findRememberMe(req.getCookies());
 
-        if (rememberMe.isEmpty()) {
+        if (!rememberMe.isPresent()) {
             return Optional.empty();
         }
 
@@ -66,12 +66,7 @@ public class UserService {
         String password = req.getParameter("password");
 
         Optional<Account> user = userRepo.findByUsername(username);
-//        if (user.isPresent() && user.get().getPassword().equals(password)) {
-//        return user;
-            return user.filter(u -> encoder.matches(password, u.getPassword()));
-//        } else {
-//            return Optional.empty();
-//        }
+        return user.filter(u -> encoder.matches(password, u.getPassword()));
     }
 
     public void logout(HttpServletRequest req, HttpServletResponse resp) {

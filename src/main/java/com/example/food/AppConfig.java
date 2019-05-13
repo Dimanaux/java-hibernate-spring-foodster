@@ -1,5 +1,6 @@
 package com.example.food;
 
+import com.google.gson.Gson;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -31,5 +32,10 @@ public class AppConfig {
         resolver.setPrefix("");
         resolver.setSuffix(".ftl");
         return resolver;
+    }
+
+    @Bean
+    public Gson gson() {
+        return new Gson();
     }
 }

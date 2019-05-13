@@ -24,21 +24,21 @@ public class Account {
     private String username;
 
     @Column(name = "password")
-    private String password;
+    private transient String password;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "token")
-    private String token;
+    private transient String token;
 
     @OneToMany
     @JoinColumn(name = "author_id")
-    private final List<Post> posts = new LinkedList<>();
+    private final transient List<Post> posts = new LinkedList<>();
 
     @OneToMany
     @JoinColumn(name = "author_id")
-    private final List<Recipe> recipes = new LinkedList<>();
+    private final transient List<Recipe> recipes = new LinkedList<>();
 
     @Override
     public boolean equals(Object o) {

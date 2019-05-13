@@ -36,14 +36,19 @@ public class RecipeService {
     }
 
     public Recipe create(Dish dish, Account author, String title, String text, List<Integer> ids) {
-        List<Ingredient> allById = ingredientDao.findAllById(ids);
         Recipe recipe = Recipe.builder()
                 .dish(dish)
                 .title(title)
                 .author(author)
                 .content(text)
                 .build();
+        List<Ingredient> allById = ingredientDao.findAllById(ids);
         recipe.getIngredients().addAll(allById);
         return recipeDao.save(recipe);
+    }
+
+    public List<Recipe> searchByIngredients(List<String> ingredientsNames) {
+        List<Ingredient> allByName = ingredientDao.findAllByName(ingredientsNames);
+        return recipeDao.findAllByIngredientsIn(allByName);
     }
 }

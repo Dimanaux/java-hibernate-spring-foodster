@@ -30,7 +30,7 @@ public class AuthController {
         Optional<Account> user = userService.authenticate(request);
         user.ifPresent(u -> userService.authorize(request, u));
 
-        if (user.isEmpty()) {
+        if (!user.isPresent()) {
             return "redirect:/auth?error='wrong credentials'";
         }
 

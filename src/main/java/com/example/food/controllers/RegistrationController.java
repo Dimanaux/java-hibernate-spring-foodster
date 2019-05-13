@@ -23,7 +23,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    protected String register(HttpServletRequest req) {
+    public String register(HttpServletRequest req) {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String name = req.getParameter("name");
@@ -31,12 +31,6 @@ public class RegistrationController {
         Matcher usernameMatcher = Pattern.compile("[A-Za-z][A-Za-z0-9_]{3,15}").matcher(username);
         if (!usernameMatcher.matches()) {
             return "redirect:/registration?error='username must contain 4-15 symbols from a-z _ and 0-9'";
-        }
-
-        Matcher passwordMatcher = Pattern.compile("[A-Za-z0-9!@#$%^&*-=_+?.,]{6,24}").matcher(username);
-        if (!passwordMatcher.matches()) {
-            return "redirect:/registration?error='password must contain 6-24 symbols'";
-
         }
 
         Account account = userService.createUser(username, password, name);

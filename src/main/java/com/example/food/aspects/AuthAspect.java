@@ -25,8 +25,8 @@ public class AuthAspect {
     @Around(value = "execution(* com.example.food.controllers..*(..)) && args(modelMap, request)", argNames = "pjp,modelMap,request")
     public Object auth(ProceedingJoinPoint pjp, ModelMap modelMap, HttpServletRequest request) throws Throwable {
         Optional<Account> account = userService.getCurrentUser(request);
-        if (account.isEmpty()) {
-            return "/auth";
+        if (!account.isPresent()) {
+            return "redirect:/auth";
         }
 
         modelMap.put("user", account.get());
@@ -34,11 +34,15 @@ public class AuthAspect {
         return pjp.proceed(pjp.getArgs());
     }
 
-    @Around("execution(* com.example.food.controllers..*(..)) && args(request) && @annotation(org.springframework.web.bind.annotation.PostMapping)")
+    @Around("execution(* com.example.food.controllers..*(..))" +
+            " && !execution(* com.example.food.controllers.RegistrationController.*(..))" +
+            " && args(request)" +
+            " && @annotation(org.springframework.web.bind.annotation.PostMapping)"
+    )
     public Object authOnPost(ProceedingJoinPoint pjp, HttpServletRequest request) throws Throwable {
         Optional<Account> account = userService.getCurrentUser(request);
-        if (account.isEmpty()) {
-            return "/auth";
+        if (!account.isPresent()) {
+            return "redirect:/auth";
         }
         return pjp.proceed(pjp.getArgs());
     }
