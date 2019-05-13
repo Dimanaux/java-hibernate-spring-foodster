@@ -1,10 +1,11 @@
-const createRecipe = (recipe) => {
-    let list = $('#recipes-list');
+const createRecipe = (list, recipe) => {
     list.append(
         `<a href="/recipes/${recipe.id}">
             <div class="item">
                 <h4>${recipe.title}</h4>
-                <small>${recipe.date}</small>
+                <ul class="ingredients">
+                    <li>${recipe.ingredients.map(i => i.name).join('</li><li>')}</li>
+                </ul>
             </div>
         </a>`
     );
@@ -20,9 +21,10 @@ const search = () => {
         type: 'GET',
         data: {query: query},
         success: (data) => {
-            $('#recipe-item').remove();
+            let list = $('#recipes-list');
+            list.empty();
             for (let recipe of data) {
-                createRecipe(recipe);
+                createRecipe(list, recipe);
             }
         }
     });

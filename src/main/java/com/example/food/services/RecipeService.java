@@ -1,9 +1,9 @@
 package com.example.food.services;
 
+import com.example.food.db.entities.Account;
 import com.example.food.db.entities.Dish;
 import com.example.food.db.entities.Ingredient;
 import com.example.food.db.entities.Recipe;
-import com.example.food.db.entities.Account;
 import com.example.food.db.repositories.IngredientRepo;
 import com.example.food.db.repositories.RecipeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class RecipeService {
@@ -47,7 +48,7 @@ public class RecipeService {
         return recipeDao.save(recipe);
     }
 
-    public List<Recipe> searchByIngredients(List<String> ingredientsNames) {
+    public Set<Recipe>  searchByIngredients(List<String> ingredientsNames) {
         List<Ingredient> allByName = ingredientDao.findAllByName(ingredientsNames);
         return recipeDao.findAllByIngredientsIn(allByName);
     }

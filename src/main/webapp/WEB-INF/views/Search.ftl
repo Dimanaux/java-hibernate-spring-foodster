@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="/static/css/recipes.css">
     <script src="/static/js/search.js" defer></script>
     <link rel="stylesheet" href="/static/css/recipes_new.css">
+
+    <style>
+        .ingredients {
+            display: inline;
+        }
+        .ingredients > li {
+            display: inline;
+        }
+    </style>
 </#macro>
 
 <#macro content>

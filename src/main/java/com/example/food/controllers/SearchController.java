@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class SearchController {
@@ -37,12 +37,9 @@ public class SearchController {
 
     @ResponseBody
     @GetMapping(path = "/search.json", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String search(@RequestParam("query") String query,
-                         HttpServletRequest request,
-                         HttpServletResponse response) {
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+    public String search(@RequestParam("query") String query) {
         List<String> ingredientsNames = Arrays.asList(query.split(" "));
-        List<Recipe> recipes = recipeService.searchByIngredients(ingredientsNames);
+        Set<Recipe> recipes = recipeService.searchByIngredients(ingredientsNames);
         return gson.toJson(recipes.toArray());
     }
 }
